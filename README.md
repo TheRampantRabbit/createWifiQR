@@ -1,5 +1,10 @@
 # createWifiQR
 
+When run will output a QR code as a PNG that when scanned will give the user the option to join the wireless network.
+
+## Requires
+pyqrcode - https://pypi.org/project/PyQRCode/
+
 ## Sample usage
 
 % python3 joinWifiQR.py -h
