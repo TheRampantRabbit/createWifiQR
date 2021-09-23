@@ -1,0 +1,8 @@
+# Visual Studio code coverage results
+*.coverage
+*.coveragexml
+
+# Stop accidental leak
+*.png
+
+*.DS_Store
