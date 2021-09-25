@@ -28,13 +28,17 @@ def checkInput(ssid, encr, psk):
     function to check user input before generating QR code
     """
     # print user input to console
-    print("\n")
-    print("Generating a QR Code with the following settings:\n")
-    print(f"SSID: {ssid}")
-    print(f"Encryption: {encr}")
-    print(f"PSK: {psk}")
-    proceed = input("Is this correct? (y/n): ")
-    print("\n")
+    if ssid:
+        print("\n")
+        print("Generating a QR Code with the following settings:\n")
+        print(f"SSID: {ssid}")
+        print(f"Encryption: {encr}")
+        print(f"PSK: {psk}")
+        proceed = input("Is this correct? (y/n): ")
+        print("\n")
+    else:
+        # will prompt for input if the SSID entered
+        proceed = False
 
     # if input is incorrect null the variables and prompt for input
     if proceed != "y":
@@ -42,7 +46,8 @@ def checkInput(ssid, encr, psk):
         encr = None
         psk = None
 
-        ssid = input("Enter SSID: ")
+        while not ssid:
+            ssid = input("Enter SSID: ")
         while encr not in ("WPA","WEP",""):
             encr = str.upper(input("Enter Encryption type WPA/WEP or leave blank: "))
         if encr == "":
