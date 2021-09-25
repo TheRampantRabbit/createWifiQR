@@ -16,8 +16,6 @@ def makeQR(ssid, encr, psk):
     else:
         psk = f'P:{psk}'
 
-    print(f'WIFI:{ssid};{encr};{psk};;')
-    # QRCode = pyqrcode.create(f'WIFI:S:{ssid};T:{encr};P:{psk};;')
     QRCode = pyqrcode.create(f'WIFI:{ssid};{encr};{psk};;')
     
     QRCode.png(f'Join_{ssid}.png', scale=8, module_color=[0, 0, 0, 128], background=[0xff, 0xff, 0xff])
@@ -46,7 +44,7 @@ def checkInput(ssid, encr, psk):
 
         ssid = input("Enter SSID: ")
         while encr not in ("WPA","WEP",""):
-            encr = str.upper(input("Enter Encryption WPA/WEP or leave blank): "))
+            encr = str.upper(input("Enter Encryption type WPA/WEP or leave blank): "))
         if encr == "":
             encr = None
         psk = input("Enter PSK or leave blank: ")
@@ -71,7 +69,7 @@ if __name__ == "__main__":
     # parse arguments and assign
     args = parser.parse_args()
     
-    # check if all arguments were set, if none then prompt for input
+    # check if all arguments were set, if not then set a var to None
     if args.ssid is not None:
         ssid = args.ssid
     else:
