@@ -44,7 +44,7 @@ def checkInput(ssid, encr, psk):
 
         ssid = input("Enter SSID: ")
         while encr not in ("WPA","WEP",""):
-            encr = str.upper(input("Enter Encryption type WPA/WEP or leave blank): "))
+            encr = str.upper(input("Enter Encryption type WPA/WEP or leave blank: "))
         if encr == "":
             encr = None
         psk = input("Enter PSK or leave blank: ")
@@ -63,27 +63,11 @@ if __name__ == "__main__":
     # create arguments
     parser = argparse.ArgumentParser(description="Generates a QR code that can be used to join a wireless network and output PNG to working directory.")
     parser.add_argument("-s","--ssid", required=False, type=str, help="SSID")
-    parser.add_argument("-e","--encr", choices=["WPA","WEP","NONE"], required=False, type=str.upper, help="Encryption type, either WEP, WPA or None",)
+    parser.add_argument("-e","--encr", choices=["WPA","WEP"], required=False, type=str.upper, help="Encryption type, either WEP or WPA")
     parser.add_argument("-p","--psk", required=False, type=str, help="PSK")
 
     # parse arguments and assign
     args = parser.parse_args()
-    
-    # check if all arguments were set, if not then set a var to None
-    if args.ssid is not None:
-        ssid = args.ssid
-    else:
-        ssid = None
-    
-    if args.encr is not None:
-        encr = args.encr
-    else:
-        encr = None
-
-    if args.psk is not None:    
-        psk = args.psk
-    else:
-        psk = None
-
+        
     # check input with user
-    checkInput(ssid, encr, psk)
+    checkInput(args.ssid, args.encr, args.psk)
