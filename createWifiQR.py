@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # parse arguments and assign
     args = parser.parse_args()
     
-    # check if all arguments were set
+    # check if all arguments were set, if none then prompt for input
     if args.ssid is not None:
         ssid = args.ssid
     else:
