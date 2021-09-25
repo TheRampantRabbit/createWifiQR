@@ -3,7 +3,22 @@ import pyqrcode
 
 def makeQR(ssid, encr, psk):
     """ function outputs a png to working directory and to console using input provided """
-    QRCode = pyqrcode.create(f'WIFI:S:{ssid};T:{encr};P:{psk};;')
+    
+    ssid = f'S:{ssid}'
+
+    if not encr:
+        encr = ""
+    else:
+        encr = f'T:{encr}'
+
+    if not psk:
+        psk = ""
+    else:
+        psk = f'P:{psk}'
+
+    print(f'WIFI:{ssid};{encr};{psk};;')
+    # QRCode = pyqrcode.create(f'WIFI:S:{ssid};T:{encr};P:{psk};;')
+    QRCode = pyqrcode.create(f'WIFI:{ssid};{encr};{psk};;')
     
     QRCode.png(f'Join_{ssid}.png', scale=8, module_color=[0, 0, 0, 128], background=[0xff, 0xff, 0xff])
     # QRCode.show()
@@ -30,9 +45,13 @@ def checkInput(ssid, encr, psk):
         psk = None
 
         ssid = input("Enter SSID: ")
-        while encr not in ("WPA","WEP"):
-            encr = input("Enter Encryption (WPA/WEP): ")
-        psk = input("Enter PSK: ")
+        while encr not in ("WPA","WEP",""):
+            encr = str.upper(input("Enter Encryption WPA/WEP or leave blank): "))
+        if encr == "":
+            encr = None
+        psk = input("Enter PSK or leave blank: ")
+        if psk == "":
+            psk = None
 
         # re-check user input
         checkInput(ssid, encr, psk)
@@ -46,7 +65,7 @@ if __name__ == "__main__":
     # create arguments
     parser = argparse.ArgumentParser(description="Generates a QR code that can be used to join a wireless network and output PNG to working directory.")
     parser.add_argument("-s","--ssid", required=False, type=str, help="SSID")
-    parser.add_argument("-e","--encr", choices=["WPA","WEP"], required=False, type=str, help="Encryption type, either WEP or WPA (case sensitive)",)
+    parser.add_argument("-e","--encr", choices=["WPA","WEP","NONE"], required=False, type=str.upper, help="Encryption type, either WEP, WPA or None",)
     parser.add_argument("-p","--psk", required=False, type=str, help="PSK")
 
     # parse arguments and assign
@@ -56,20 +75,17 @@ if __name__ == "__main__":
     if args.ssid is not None:
         ssid = args.ssid
     else:
-        ssid = input("Enter SSID: ")
+        ssid = None
     
     if args.encr is not None:
         encr = args.encr
     else:
-        # set encr to None so while loop does not throw an exception
         encr = None
-        while encr not in ("WPA","WEP"):
-            encr = input("Enter Encryption (WPA/WEP): ")
 
     if args.psk is not None:    
         psk = args.psk
     else:
-        psk = input("Enter PSK: ")
+        psk = None
 
     # check input with user
     checkInput(ssid, encr, psk)
