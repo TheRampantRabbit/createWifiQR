@@ -3,9 +3,6 @@ import pyqrcode
 
 def makeQR(ssid, encr, psk):
     """ function outputs a png to working directory and to console using input provided """
-    
-    ssid = f'S:{ssid}'
-
     if not encr:
         encr = ""
     else:
@@ -16,8 +13,8 @@ def makeQR(ssid, encr, psk):
     else:
         psk = f'P:{psk}'
 
-    QRCode = pyqrcode.create(f'WIFI:{ssid};{encr};{psk};;')
-    
+    QRCode = pyqrcode.create(f'WIFI:S:{ssid};{encr};{psk};;')
+
     QRCode.png(f'Join_{ssid}.png', scale=8, module_color=[0, 0, 0, 128], background=[0xff, 0xff, 0xff])
     # QRCode.show()
 
@@ -37,7 +34,7 @@ def checkInput(ssid, encr, psk):
         proceed = input("Is this correct? (y/n): ")
         print("\n")
     else:
-        # will prompt for input if the SSID entered
+        # will prompt for input if the SSID not entered
         proceed = False
 
     # if input is incorrect null the variables and prompt for input
@@ -64,7 +61,6 @@ def checkInput(ssid, encr, psk):
 
 if __name__ == "__main__":
     """ This is executed when run from the command line """
-            
     # create arguments
     parser = argparse.ArgumentParser(description="Generates a QR code that can be used to join a wireless network and output PNG to working directory.")
     parser.add_argument("-s","--ssid", required=False, type=str, help="SSID")
@@ -73,6 +69,6 @@ if __name__ == "__main__":
 
     # parse arguments and assign
     args = parser.parse_args()
-        
+
     # check input with user
     checkInput(args.ssid, args.encr, args.psk)
